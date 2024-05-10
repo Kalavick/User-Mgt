@@ -1,0 +1,23 @@
+<!-- register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    {% if request.user.is_superuser %}
+    <h2>Register</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    {% else %}
+    <p>Sorry, you don't have permission to access this page.</p>
+    {% endif %}
+    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+</body>
+</html>
+

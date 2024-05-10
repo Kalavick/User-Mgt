@@ -5,22 +5,37 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm
+from .forms import RegistrationForm
+
+
+def home(request):
+    return render(request, 'home.html', {})
+
+
 
 # Create your views here.
 @login_required
 def register_view(request):
     if request.user.is_superuser:  # Only allow superusers to access the registration view
         if request.method == 'POST':
-            form = CustomUserCreationForm(request.POST)
+            form = RegistrationForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('login')
+                messages.success(request, 'User registratoin successful. Please login')
+                return redirect('login')  #redirect to login page after successful registration
         else:
-            form = CustomUserCreationForm()
+            form = RegistrationForm()
         return render(request, 'register.html', {'form': form})
     else:
         return redirect('login')  # Redirect non-superusers to login page
+    
+#Explanation:
+
+#We import the necessary modules: render, redirect, login_required, User, and RegistrationForm.
+#We define the register_view function, which is responsible for rendering the registration form (register.html) and processing form submissions to create new user accounts.
+#Inside the view function, we first check if the user accessing the registration page is a superuser. If not, they are redirected to the login page.
+#If the user is a superuser, we check the request method. If it's a POST request, we initialize the registration form with the POST data and validate it. If the form is valid, we save the new user and redirect to the login page.
+#If it's a GET request, we initialize an empty registration form and render the registration page (register.html) with the form.
     
 def login_view(request):
     if request.method == 'POST':

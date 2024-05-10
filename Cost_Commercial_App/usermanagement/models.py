@@ -29,8 +29,8 @@ class CustomUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='created_users', null=True, blank=True)
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='updated_users', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='created_users', null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'email'
